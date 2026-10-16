@@ -82,6 +82,7 @@ The local recipes expect:
 
 - Rust and rustup.
 - just.
+- cargo-nextest for running tests.
 - dprint 0.56.1 and nightly rustfmt.
 - cargo-deny.
 - TruffleHog.

@@ -42,6 +42,7 @@ The pinned Rust toolchain is installed automatically by rustup. Local recipes
 also use these tools:
 
 - [just](https://just.systems) for task execution.
+- [cargo-nextest](https://nexte.st) for running tests.
 - [dprint](https://dprint.dev) 0.56.1 and nightly rustfmt for formatting.
 - [cargo-deny](https://embarkstudios.github.io/cargo-deny/) for dependency
   policy.
@@ -55,7 +56,7 @@ also use these tools:
 On macOS with Homebrew, install the packaged tools with:
 
 ```sh
-brew install cargo-deny dprint git-cliff just shellcheck trufflehog zizmor
+brew install cargo-deny cargo-nextest dprint git-cliff just shellcheck trufflehog zizmor
 cargo install cargo-llvm-cov
 rustup toolchain install nightly --profile minimal --component rustfmt
 ```
@@ -81,6 +82,18 @@ just check
 `just check` is the local quality gate. It verifies formatting, runs Clippy
 with warnings denied, builds documentation with warnings denied, checks the
 dependency policy, and runs the tests.
+
+`just test` runs all test targets with cargo-nextest, followed by documentation
+tests with `cargo test --doc`. Its first argument is passed to nextest; its
+optional second argument is passed to the documentation test command:
+
+```sh
+just test "-E 'test(greeting)'"
+just test "--release" "--release"
+```
+
+`just coverage` runs test targets with cargo-nextest through cargo-llvm-cov
+and writes an LCOV report to `lcov.info` by default.
 
 ## Enable the Git hooks
 
