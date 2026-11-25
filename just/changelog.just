@@ -16,3 +16,11 @@ gh_release version:
   git tag "v{{ version }}" && \
   git push origin "v{{ version }}" && \
   echo "$notes" | gh release create "v{{ version }}" --title "v{{ version }}" --notes-file -
+
+# Tag a version and create a GitHub pre-release with the changelog section as notes. Does not publish to crates.io.
+[group('changelog')]
+gh_prerelease version:
+  notes="$(just changelog_preview {{ version }})" && \
+  git tag "v{{ version }}" && \
+  git push origin "v{{ version }}" && \
+  echo "$notes" | gh release create "v{{ version }}" --title "v{{ version }}" --prerelease --notes-file -
